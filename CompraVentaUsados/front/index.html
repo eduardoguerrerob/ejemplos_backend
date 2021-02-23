@@ -1,0 +1,73 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompraVentaUsados</title>
+</head>
+
+<body>
+    <div id="altaUsuarios">
+        <h1>Alta usuario</h1>
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario">
+        <button id="crearUsuario" onclick="crearUsuario()">Crear</button>
+    </div>
+    <br>
+    <div id="listaUsuarios">
+        <h1>Lista de usuarios registrados</h1>
+        <button onclick="listarUsuarios()"> Lista de usuarios registrados</button>
+    </div>
+    <br>
+    <div id="altaProducto">
+        <h1>Alta articulo</h1>
+        <label for="listaUsuarios">Usuario</label>
+        <select name="listaUsuarios" id="listaUsuarios"></select>
+        <br>
+        <label for="producto">Articulo</label>
+        <input type="text" id="producto">
+        <label for="precio">Precio</label>
+        <input type="text" id="precio">
+        <button id="crearProducto" onclick="crearProducto()">Crear</button>
+    </div>
+    <br>
+    <div id=" listadoArticulos">
+        <h1>Listado articulos</h1>
+        <table>
+            <th>ID</th>
+            <th>Articulo</th>
+            <th>Precio</th>
+            <th>Cant. Vendidas</th>
+            <tr>
+                <td>1</td>
+                <td>PC</td>
+                <td>100</td>
+                <th>5</th>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+    <div id="listadoArticulos">
+        <h1>Listado articulos de otro usuarios</h1>
+        <table>
+            <th>Usuario</th>
+            <th>ID</th>
+            <th>Articulo</th>
+            <th>Precio</th>
+            <th>Cant. Vendidas</th>
+            <th>Accion</th>
+            <tr>
+                <td>Deadpool</td>
+                <td>1</td>
+                <td>PC</td>
+                <td>100</td>
+                <th>5</th>
+                <th><button>Comprar</button></th>
+            </tr>
+        </table>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+
+</html>

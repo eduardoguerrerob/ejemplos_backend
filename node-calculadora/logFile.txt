@@ -1,0 +1,5 @@
+Sumar 1 + 2 es 3
+Restar 5 - 3 es 2
+Multiplicar 10 * 5 es 50
+División por cero
+Dividir 7 / 3 es 2.3333333333333335
