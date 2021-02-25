@@ -3,11 +3,13 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 
-app.use(cors());
+// midlewares
+app.use(express.json());
+app.use(cors())
 
 const port = 3000;
 
-// lista de usuarios:
+// esquema de la lista de usuarios:
 /*  [
         {
             "id":1, 
@@ -23,23 +25,21 @@ const port = 3000;
                 ....
             ]
         },
+    ]
 */
 
 let usuarios = [];
 
-//const productos = [];
+let productos = [];
 
-// modlewares
-app.use(express.json());
-app.use(cors());
+
 
 /////////////////////////////////////////////////
 // GET - lista de usuarios
 /////////////////////////////////////////////////
 app.get("/usuarios", (req, res) => {
-    const usrLS = localStorage.getItem("usuarios");
-    userAll = JSON.parse(usrLS);
-    res.status(200).json(userAll);
+    console.log("get usuarios:", usuarios);
+    res.status(200).json(usuarios);
 })
 
 
@@ -91,20 +91,20 @@ app.get("*", (req, res) => {
 // ruta POST - registro de usuario
 /////////////////////////////////////////
 app.post("/usuarios/registro", (req, res) => {
-    usr = req.body;
-
+    newUsr = req.body.usuario;
     // averiguar si ya está creado el usuario previamente
-    const usrFound = usuarios.find(u => u.usuario === usr.usuario);
+    const usrFound = usuarios.find(u => u.usuario === newUsr);
     if (usrFound) {
-        return res.send(`Usuario ${usr} ya existe`);
+        return res.send(`Usuario ${newUsr} ya existe`);
     }
     // asignar id
+    let usr = {};
     usr.id = usuarios.length + 1;
+    usr.usuario = newUsr;
+
     // adicionar el usuario
     usuarios.push(usr);
-    // grabar en el localStorage
-    const usuarioStr = JSON.stringify(usuarios);
-    localStorage.setItem("usuarios", usuarioStr);
+    console.log("usuario en registro:", usuarios);
     res.status(200).end();
 })
 
@@ -112,26 +112,42 @@ app.post("/usuarios/registro", (req, res) => {
 // ruta POST - crear producto
 ////////////////////////////////////////
 app.post("/productos", (req, res) => {
-    prod = req.body();
+    const usuario = req.body.usuario;
+    const producto = req.body.producto;
+    const precio = req.body.precio;
+
+    console.log(usuario);
+    console.log(producto);
+    console.log(precio);
 
     // validar que el usuario exista
-    const usrFound = usuarios.find(u => u.usuario === prod.usuario);
+    /*
+    const usrFound = usuarios.find(u => u.usuario === usuario);
     if (!usrFound) {
+        console.log(`Usuario no existe`);
         return res.send(`Usuario no existe`);
     }
+    */
 
     // validar que el usuario no tenga ese producto
-    const prodFound = productos.find(p => p.usuario == prod.usuario && p.producto === prod.producto);
+    /*
+    const prodFound = productos.find(p => p.usuario == usuario && p.producto === producto);
     if (prodFound) {
+        console.log(`Producto ${prod.producto} ya existe para usuario ${prod.usuario}`);
         return res.send(`Producto ${prod.producto} ya existe para usuario ${prod.usuario}`);
     }
+    */
     // agregar producto
+    let prod = {};
     prod.idProducto = productos.length + 1;
+    prod.idUsuario = usuario;
+    prod.producto = producto;
+    prod.precio = precio;
+
     productos.push(prod);
-    // grabar en el localStorage
-    const prodStr = JSON.stringify(productos);
-    localStorage.setItem("productos", prodStr);
-    res.status(200).end();
+
+    console.log("productos", productos);
+    res.status(201).end();
 })
 
 /////////////////////////////////////////////////////////
