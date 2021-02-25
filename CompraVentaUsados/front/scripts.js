@@ -93,6 +93,35 @@ async function listadoProdUsr() {
     });
 }
 
+
+async function listadoOtros() {
+    const idUsuario = document.getElementById("idusuario").value;
+    let ruta = `http://localhost:3000/usuarios/${idUsuario}/otrosprod`;
+    let respuesta = await fetch(ruta);
+    let prodOthers = await respuesta.json();
+    console.log("prodUsr:", prodOthers);
+
+    const $tableProd = document.getElementById("tableOthers");
+    $tableProd.innerHTML = "<th>ID</th><th>Articulo</th><th>Precio</th><th>Cant. Vendidas</th>";
+    prodOthers.forEach(function (p) {
+        const $item = document.createElement("tr");
+        const $colId = document.createElement("td");
+        $colId.textContent = p.idUsuario;
+        $item.appendChild($colId);
+
+        const $colProducto = document.createElement("td");
+        $colProducto.textContent = p.producto;
+        $item.appendChild($colProducto);
+
+        const $colPrecio = document.createElement("td");
+        $colPrecio.textContent = p.precio;
+        $item.appendChild($colPrecio);
+
+        $tableProd.appendChild($item);
+    });
+}
+
+
 async function llenarSelectUsr() {
     const usuarios = await listarUsuarios();
     const $listaUsuarios = document.getElementById("listaUsuarios");

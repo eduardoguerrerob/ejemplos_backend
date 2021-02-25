@@ -60,13 +60,9 @@ app.get("/usuarios/:id/productos", (req, res) => {
 /////////////////////////////////////////////////
 app.get("/usuarios/:id/otrosprod", (req, res) => {
     const usrId = req.params.id;
-    // seleccionar solo los productos del usuario
-    const otrosprod = [];
-    prodAll.forEach(p => {
-        if (p.id !== usrId) {
-            otrosprod.push(p);
-        }
-    });
+    // seleccionar los productos que sean de otros usuarios
+    const otrosprod = productos.filter(p => p.idUsuario !== usrId);
+    console.log("otrosprod:", otrosprod);
     res.json(otrosprod);
 })
 
