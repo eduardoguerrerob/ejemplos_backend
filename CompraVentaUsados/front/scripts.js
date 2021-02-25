@@ -1,13 +1,4 @@
-window.addEventListener("load", async () => {
-    const usuarios = await listarUsuarios();
-    const $listaUsuarios = document.getElementById("listaUsuarios");
-    usuarios.forEach(function (usr) {
-        const $opUsr = document.createElement("option");
-        $opUsr.setAttribute("value", usr.id);
-        $opUsr.textContent = usr.usuario;
-        $listaUsuarios.appendChild($opUsr);
-    });
-})
+window.addEventListener("load", llenarSelectUsr());
 
 
 async function crearUsuario() {
@@ -23,17 +14,33 @@ async function crearUsuario() {
         body: JSON.stringify(data)
     }
 
-    console.log("opciones=", opciones)
-
     let respuesta = await fetch(ruta, opciones);
-    console.log(respuesta);
+    llenarSelectUsr();
 }
 
 async function listarUsuarios() {
     let ruta = "http://localhost:3000/usuarios";
     let respuesta = await fetch(ruta);
     const usuarios = await respuesta.json();
-    console.log(usuarios);
+
+    $tableUsr = document.getElementById("tableUsr");
+    $tableUsr.innerHTML = "<th>ID</th><th>Usuario</th>"
+    usuarios.forEach(function (u) {
+        const $item = document.createElement("tr");
+
+        const $colId = document.createElement("td");
+        $colId.textContent = u.id;
+        $item.appendChild($colId);
+
+        const $colUsuario = document.createElement("td");
+        $colUsuario.textContent = u.usuario;
+        $item.appendChild($colUsuario);
+
+        $tableUsr.appendChild($item);
+    })
+
+
+
     return usuarios;
 }
 
@@ -57,12 +64,43 @@ async function crearProducto() {
     }
 
     let respuesta = await fetch(ruta, opciones);
-    console.log(respuesta);
 }
 
 async function listadoProdUsr() {
     const idUsuario = document.getElementById("idusuario").value;
-    console.log(idUsuario);
     let ruta = `http://localhost:3000/usuarios/${idUsuario}/productos`;
+    let respuesta = await fetch(ruta);
+    let prodUsr = await respuesta.json();
+    console.log("prodUsr:", prodUsr);
 
+    const $tableProd = document.getElementById("tableProd");
+    $tableProd.innerHTML = "<th>ID</th><th>Articulo</th><th>Precio</th><th>Cant. Vendidas</th>";
+    prodUsr.forEach(function (p) {
+        const $item = document.createElement("tr");
+        const $colId = document.createElement("td");
+        $colId.textContent = p.idUsuario;
+        $item.appendChild($colId);
+
+        const $colProducto = document.createElement("td");
+        $colProducto.textContent = p.producto;
+        $item.appendChild($colProducto);
+
+        const $colPrecio = document.createElement("td");
+        $colPrecio.textContent = p.precio;
+        $item.appendChild($colPrecio);
+
+        $tableProd.appendChild($item);
+    });
+}
+
+async function llenarSelectUsr() {
+    const usuarios = await listarUsuarios();
+    const $listaUsuarios = document.getElementById("listaUsuarios");
+    $listaUsuarios.innerHTML = '';
+    usuarios.forEach(function (usr) {
+        const $opUsr = document.createElement("option");
+        $opUsr.setAttribute("value", usr.id);
+        $opUsr.textContent = usr.usuario;
+        $listaUsuarios.appendChild($opUsr);
+    });
 }

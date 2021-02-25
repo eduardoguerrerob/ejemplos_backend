@@ -38,26 +38,20 @@ let productos = [];
 // GET - lista de usuarios
 /////////////////////////////////////////////////
 app.get("/usuarios", (req, res) => {
-    console.log("get usuarios:", usuarios);
     res.status(200).json(usuarios);
 })
 
 
 /////////////////////////////////////////////////
-// GET - status de los productos de un usuario
+// GET - productos de un usuario
 /////////////////////////////////////////////////
 app.get("/usuarios/:id/productos", (req, res) => {
     const usrId = req.params.id;
-    // traer los productos de ese usuario
-    const prodLS = localStorage.getItem("productos");
-    const prodAll = JSON.parse(prodLS);
     // seleccionar solo los productos del usuario
-    const productosUser = [];
-    prodAll.forEach(p => {       // averiguar el filter (que devuelve un array)
-        if (p.id === usrId) {
-            productosUser.push(p);
-        }
-    });
+    const productosUser = productos.filter(p => p.idUsuario === usrId);
+    console.log("usrId:", parseInt(usrId));
+    console.log(productosUser);
+
     res.json(productosUser);
 })
 
@@ -66,9 +60,6 @@ app.get("/usuarios/:id/productos", (req, res) => {
 /////////////////////////////////////////////////
 app.get("/usuarios/:id/otrosprod", (req, res) => {
     const usrId = req.params.id;
-    // traer los productos que no sean de ese usuario
-    const prodLS = localStorage.getItem("productos");
-    const prodAll = JSON.parse(prodLS);
     // seleccionar solo los productos del usuario
     const otrosprod = [];
     prodAll.forEach(p => {
