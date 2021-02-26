@@ -1,6 +1,7 @@
 // server - librerias
 const express = require("express");
 const cors = require("cors");
+const { insertUsuario, getUsuarios } = require("./repository/usuario-repository");
 const app = express();
 
 // midlewares
@@ -28,7 +29,7 @@ const port = 3000;
     ]
 */
 
-let usuarios = [];
+//let usuarios = [];
 
 let productos = [];
 
@@ -37,7 +38,10 @@ let productos = [];
 /////////////////////////////////////////////////
 // GET - lista de usuarios
 /////////////////////////////////////////////////
-app.get("/usuarios", (req, res) => {
+app.get("/usuarios", async (req, res) => {
+
+    const usuarios = await getUsuarios();
+
     res.status(200).json(usuarios);
 })
 
@@ -66,7 +70,6 @@ app.get("/usuarios/:id/otrosprod", (req, res) => {
     res.json(otrosprod);
 })
 
-
 /////////////////////////////////////////
 // ruta GET genérica
 /////////////////////////////////////////
@@ -79,19 +82,26 @@ app.get("*", (req, res) => {
 /////////////////////////////////////////
 app.post("/usuarios/registro", (req, res) => {
     newUsr = req.body.usuario;
-    // averiguar si ya está creado el usuario previamente
+    // averiguar si ya está creado el usuario previamente  --> PASAR A UN MIDLEWARE ******
+    /*
     const usrFound = usuarios.find(u => u.usuario === newUsr);
     if (usrFound) {
         return res.send(`Usuario ${newUsr} ya existe`);
     }
+    */
     // asignar id
     let usr = {};
-    usr.id = usuarios.length + 1;
+    //usr.id = usuarios.length + 1;
     usr.usuario = newUsr;
+    usr.email = `${usr.usuario}@gmail.com`;
+    usr.password = "12345";
 
     // adicionar el usuario
-    usuarios.push(usr);
-    console.log("usuario en registro:", usuarios);
+    insertUsuario(usr);
+
+
+    //usuarios.push(usr);
+    //console.log("usuario en registro:", usuarios);
     res.status(200).end();
 })
 
