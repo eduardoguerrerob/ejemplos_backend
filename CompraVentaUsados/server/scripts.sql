@@ -3,3 +3,5 @@ CREATE TABLE `compraventa`.`usuarios` ( `id` INT NOT NULL AUTO_INCREMENT , `usua
 CREATE TABLE `compraventa`.`productos` ( `id` INT NOT NULL , `usuario_id` INT NOT NULL , `producto` VARCHAR(50) NOT NULL , `precio` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 
 ALTER TABLE `productos` ADD CONSTRAINT `fk_usuario_id` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+INSERT INTO `usuarios` (`id`, `usuario`, `email`, `password`) VALUES (NULL, 'anto', 'anto@gmail.com', '12345')
